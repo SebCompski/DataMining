@@ -83,6 +83,7 @@ def main():
 
 def output_to_file(output):
 	global f
+	#print output
 	try:
 		f.write(output)
 	except UnicodeEncodeError:
@@ -112,22 +113,31 @@ def process_file(soup):
 	#For all of the body tags, take their strings, do the pre-processing on them
 	articles = soup.findAll('reuters')
 	
+	
+	
 	#For each article, run the process article method
 	for art in articles:
-		output = process_article(art)
-		print output
-		output_to_file(output)
+		topic = art.find('topics')
+		iTopic = topic.find_all('d')
+		if iTopic:
+			for t in iTopic:
+				t = t.get_text()
+				#print t
+				if t == "earn" or t == "acquisitions" or t == "money-fx" or t == "grain" or t == "crude" or t == "trade" or t == "intrest" or t == "ship" or t == "wheat" or t == "corn":
+					#print "This one is good"
+					output = process_article(art)
+					output_to_file(output)
+					break
 		
 def process_article(articles):
-	global id
-	idoutput = "<ID>" + str(id) + "</ID>\n"
-	id = id + 1
-
+	idoutput = "<ID>" + articles.get("newid") + "</ID>\n"
+	lewisout = "<LEWISSPLIT>" + articles.get("lewissplit") + "</LEWISSPLIT>\n"
+	
 	#Process their topics
 	topicoutput = ""
 	topic = articles.find('topics')
 	if topic:
-		topicoutput = process_punctuation(topic)
+		topicoutput = process_topic(topic)
 		topicoutput = "<topics>" + topicoutput + "</topics>\n"
 
 	#Process their titles
@@ -159,24 +169,36 @@ def process_article(articles):
 		bodyoutput = process_lemm(bodyoutput)
 		bodyoutput = process_removewords(bodyoutput)
 		bodyoutput = "<body> " + bodyoutput + "</body>\n"
+		#print bodyoutput
 		
-	return idoutput + topicoutput + titleoutput + datelineoutput + bodyoutput
+	#print "<story>\n" + idoutput + lewisout + topicoutput + titleoutput + datelineoutput + bodyoutput + "</story>\n"
+	return "<story>\n" + idoutput + lewisout + topicoutput + titleoutput + datelineoutput + bodyoutput + "</story>\n"
 
+def process_topic(body):
+	temp=""
+	topics = body.find_all('d')
+	outputtopic = ""
+	for t in topics:
+		#print t
+		temp = t.get_text()
+		outputtopic = outputtopic + temp + " "
+	
+	return outputtopic
 
 def process_punctuation(body):
 	newLine = body.get_text()
 
 	newLine = re.sub('\.|,|<|>|\'|:|;|(|)|-|\*|/|\\|?|!|"|%|$|#', '', newLine)
 	newLine = re.sub('Reuter', '', newLine)
-	print "Punct: ", newLine
+	newLine = newLine.lower()
+	#print "Punct: ", newLine
 	return newLine
 	
 def process_removewords(newLine):
-	newLine = newLine.lower()
 	newLine = re.sub(' the | be | to | of | and | a | in | i | it | for | on | a | if | at | an | or | so | its ', ' ', newLine)
 
 	newLine = re.sub('[0-9]+', 'NUMBER', newLine)
-	print "Remove: ", newLine
+	#print "Remove: ", newLine
 	return newLine
 	
 def process_POS(newLine):
@@ -186,23 +208,20 @@ def process_POS(newLine):
 	for tup in newLine:
 		st = tup[0] + " " + tup[1]
 		outLine = outLine + " " + st
-	print "POS: ", outLine
+	#print "POS: ", outLine
 	
 	return outLine
 	
 def process_lemm(newLine):
 	newLine = newLine.split()
 	lmtzr = WordNetLemmatizer()
-	iterator = len(newLine)
-	iterator = iterator[::2]
-	for x in iterator:
-		print "Lemmaing: ", newLine
-		print "Specifically: ", newLine[x]
+	for x in range(0,len(newLine)):
 		newLine[x] = lmtzr.lemmatize(newLine[x])
+		newLine[x] = lmtzr.lemmatize(newLine[x], "v")
 	
 	
 	newLine = " ".join(newLine)
-	print newLine
+	#print newLine
 	return newLine
 
 main()
