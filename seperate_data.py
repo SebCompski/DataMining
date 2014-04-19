@@ -25,7 +25,7 @@ def sort_articles(body):
 	#print type
 	if type=="TRAIN":
 		write_train(str(body))
-	else:
+	elif type=="TEST":
 		write_test(str(body))
 
 def write_train(output):

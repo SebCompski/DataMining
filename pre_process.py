@@ -123,7 +123,7 @@ def process_file(soup):
 			for t in iTopic:
 				t = t.get_text()
 				#print t
-				if t == "earn" or t == "acquisitions" or t == "money-fx" or t == "grain" or t == "crude" or t == "trade" or t == "intrest" or t == "ship" or t == "wheat" or t == "corn":
+				if t == "earn" or t == "acq" or t == "money-fx" or t == "grain" or t == "crude" or t == "trade" or t == "interest" or t == "ship" or t == "wheat" or t == "corn":
 					#print "This one is good"
 					output = process_article(art)
 					output_to_file(output)
@@ -206,7 +206,7 @@ def process_POS(newLine):
 	newLine = nltk.pos_tag(newLine)
 	outLine=""
 	for tup in newLine:
-		st = tup[0] + " " + tup[1]
+		st = tup[0] + "-" + tup[1]
 		outLine = outLine + " " + st
 	#print "POS: ", outLine
 	
