@@ -12,7 +12,7 @@ test = open('test_data.sgm', 'a')
 def main():
 	print "Starting..."
 	#Read in the document
-	soup = BeautifulSoup(open("pre_processed_records.sgm"))
+	soup = BeautifulSoup(open("stage_one.sgm"))
 	
 	articles = soup.find_all('story')
 	

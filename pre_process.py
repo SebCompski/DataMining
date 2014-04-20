@@ -9,7 +9,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from bs4 import BeautifulSoup
 
 id = 0
-f = open('pre_processed_records.sgm', 'a')
+f = open('stage_one.sgm', 'a')
 
 def main():
 	print "Starting..."
@@ -195,7 +195,7 @@ def process_punctuation(body):
 	return newLine
 	
 def process_removewords(newLine):
-	newLine = re.sub(' the | be | to | of | and | a | in | i | it | for | on | a | if | at | an | or | so | its ', ' ', newLine)
+	newLine = re.sub(' the-DT | be-VB | to-TO | of-IN | and-CC | a-DT | in-IN| i-JJ | i-NN | i-PRP | i--NONE- | it-PRP | for-IN | on | is-VBZ | if-JJ | if-IN | at-IN | an-DT | or-CC | so-RB | so-IN', ' ', newLine)
 
 	newLine = re.sub('[0-9]+', 'NUMBER', newLine)
 	#print "Remove: ", newLine
