@@ -146,7 +146,7 @@ def process_article(articles):
 	if title:
 		titleoutput = process_punctuation(title)
 		titleoutput = process_POS(titleoutput)
-		titleoutput = process_lemm(titleoutput)
+		#titleoutput = process_lemm(titleoutput)
 		titleoutput = process_removewords(titleoutput)
 		titleoutput = "<title> " + titleoutput + "</title>\n"
 		
@@ -156,7 +156,7 @@ def process_article(articles):
 	if dateline:
 		datelineoutput = process_punctuation(dateline)
 		datelineoutput = process_POS(datelineoutput)
-		datelineoutput = process_lemm(datelineoutput)
+		#datelineoutput = process_lemm(datelineoutput)
 		datelineoutput = process_removewords(datelineoutput)
 		datelineoutput = "<dateline> " + datelineoutput + "</dateline>\n"
 		
@@ -166,7 +166,7 @@ def process_article(articles):
 	if body:
 		bodyoutput = process_punctuation(body)
 		bodyoutput = process_POS(bodyoutput)
-		bodyoutput = process_lemm(bodyoutput)
+		#bodyoutput = process_lemm(bodyoutput)
 		bodyoutput = process_removewords(bodyoutput)
 		bodyoutput = "<body> " + bodyoutput + "</body>\n"
 		#print bodyoutput
@@ -206,11 +206,20 @@ def process_POS(newLine):
 	newLine = nltk.pos_tag(newLine)
 	outLine=""
 	for tup in newLine:
-		st = tup[0] + "-" + tup[1]
+		word = "" + tup[0] + ""
+		word = lemm_word(word)
+		st = word + "-" + tup[1]
 		outLine = outLine + " " + st
 	#print "POS: ", outLine
 	
 	return outLine
+
+def lemm_word(word):
+	lmtzr = WordNetLemmatizer()
+	word = lmtzr.lemmatize(word)
+	word = lmtzr.lemmatize(word, "v")
+
+	return word
 	
 def process_lemm(newLine):
 	newLine = newLine.split()

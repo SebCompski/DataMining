@@ -4,9 +4,13 @@ import re
 import string
 import nltk
 
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import HashingVectorizer
+from sklearn.naive_bayes import GaussianNB
 from bs4 import BeautifulSoup
 
-f = open('word_stats.csv', 'a')
+#f = open('word_stats.csv', 'a')
 
 def main():
 	count = 0
@@ -15,8 +19,8 @@ def main():
 	#Read in the document
 	print "Reading in the document..."
 	print
-	soup = BeautifulSoup(open("train_data.sgm"))
-	print "Loaded train_data.sgm"
+	soup = BeautifulSoup(open("stage_one.sgm"))
+	print "Loaded stage_one.sgm"
 	print
 	
 	#Create Hash Maps
@@ -32,6 +36,10 @@ def main():
 	shipHashMap = {}
 	wheatHashMap = {}
 	cornHashMap = {}
+
+	storyArray = []
+	classArray = []
+	splitArray = [] #True means its for training, false means its for testing
 	
 	#Get the list of stories
 	articles = soup.findAll('story')
@@ -41,7 +49,14 @@ def main():
 		#Get the topic
 		topic = art.find('topics')
 		topic = topic.get_text()
-		
+
+		#Get the body and place it into the array at the current index point.
+		body = art.find('body')
+		if body:
+			body = body.get_text()
+			storyArray.append(body)
+		else:
+			storyArray.append('0')
 		
 		#for each doc, find which topics are in it
 		earnTopic = re.search("earn", topic)
@@ -54,7 +69,57 @@ def main():
 		shipTopic = re.search("ship", topic)
 		wheatTopic = re.search("wheat", topic)
 		cornTopic = re.search("corn", topic)
-		
+
+		#for each topic, if it is on, add it to the topic array, you don't want to add ones that are in there but aren't one of the important 10
+		if earnTopic:
+			trainClassArray.append("earn")
+		elif acqTopic:
+			trainClassArray.append("acq")
+		elif moneyTopic:
+			trainClassArray.append("money")
+		elif grainTopic:
+			trainClassArray.append("grain")
+		elif crudeTopic:
+			trainClassArray.append("crude")
+		elif tradeTopic:
+			trainClassArray.append("trade")
+		elif intTopic:
+			trainClassArray.append("interest")
+		elif shipTopic:
+			trainClassArray.append("ship")
+		elif wheatTopic:
+			trainClassArray.append("wheat")
+		elif cornTopic:
+			trainClassArray.append("corn")
+		else:
+			trainClassArray.append("ERROR")
+
+	print "Train Class array size: "
+	print len(trainClassArray)
+	print "Train Story array size: "
+	print len(trainStoryArray)
+
+	vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5,stop_words='english')
+	X_train = vectorizer.fit_transform(trainStoryArray)
+	X_train = X_train.toarray()
+
+	X_test = vectorizer.transform(testStoryArray)
+	X_test = X_test.toarray()
+
+	#print X_train
+	#print X_test
+
+	gnb = GaussianNB()
+	prediction = gnb.fit(X_train, trainClassArray).predict(X_test)
+	print ("Number of mislabeled points: %d" % (trainClassArray != prediction).sum())
+
+
+	print 
+	print "Done"
+
+
+
+	'''
 		body = art.find('body')
 		if body:
 			body = body.get_text()
@@ -151,8 +216,11 @@ def main():
 						count = count + 1
 						cornHashMap[word] = count
 					except KeyError:
-						cornHashMap[word] = 1			
-					
+						cornHashMap[word] = 1	
+	'''		
+
+	
+	'''		
 	#Remove words that only appear 3 or fewer times
 	print
 	print "Analysed stories"
@@ -266,9 +334,15 @@ def main():
 			corn = 0
 		outputLine = word + "," + str(general) + "," + str(earn) + "," + str(acq) + "," + str(money) + "," + str(grain) + "," + str(crude) + "," + str(trade) + "," + str(int) + "," + str(ship) + "," + str(wheat) + "," + str(corn) + "\n"
 		output_to_file(outputLine)
-		
-	print 
-	print "Done"
+	'''
+
+
+def put_in_array(body):
+	outputArray = []
+	for story in body:
+		outputArray.append(story)
+
+	return outputArray
 	
 def output_to_file(output):
 	global f
