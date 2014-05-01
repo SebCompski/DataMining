@@ -117,17 +117,18 @@ def process_file(soup):
 	
 	#For each article, run the process article method
 	for art in articles:
+		output = process_article(art)
+		output_to_file(output)
+		
 		topic = art.find('topics')
 		iTopic = topic.find_all('d')
 		if iTopic:
 			for t in iTopic:
 				t = t.get_text()
-				#print t
-				if t == "earn" or t == "acq" or t == "money-fx" or t == "grain" or t == "crude" or t == "trade" or t == "interest" or t == "ship" or t == "wheat" or t == "corn":
-					#print "This one is good"
-					output = process_article(art)
-					output_to_file(output)
-					break
+				output = process_article(art)
+				output_to_file(output)
+				break
+		
 		
 def process_article(articles):
 	idoutput = "<ID>" + articles.get("newid") + "</ID>\n"
