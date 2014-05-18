@@ -15,12 +15,16 @@ from sklearn.cluster import Ward
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import TruncatedSVD
 from sklearn.preprocessing import normalize
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 from sklearn import svm
 from sklearn import metrics
 from sklearn.cross_validation import KFold
 from bs4 import BeautifulSoup
 
 #f = open('word_stats.csv', 'a')
+f = open('results.sgm', 'w')
+s = open('stats.sgm', 'w')
 
 def main():
 	count = 0
@@ -187,7 +191,10 @@ def main():
 
 		#Make the model and do the important naive bayesy stuff
 		model = gnb.fit(splitTrainStory, splitTrainClass)
+		labels = model.classes_
 		prediction = model.predict(splitTestStory)
+		output_csv(splitTestClass, prediction,labels,currentFold,"Naive Bayes")
+		output_stats(splitTestClass,prediction,labels,currentFold,"Naive Bayes")
 		#print_metrics(splitTestClass, prediction)
 
 		if (bestAccuracy < float(metrics.accuracy_score(splitTestClass, prediction))):
@@ -206,6 +213,8 @@ def main():
 	print "Running against the test data now..."
 	prediction = model.predict(testStory)
 	print_metrics(testClass, prediction)
+	output_csv(testClass, prediction,labels,"Best","Naive Bayes")
+	output_stats(testClass,prediction,labels,"Best","Naive Bayes")
 	print
 
 
@@ -225,7 +234,10 @@ def main():
 		splitTestClass = [trainClass[i] for i in testkf]
 
 		model = sup.fit(trainStory, trainClass)
+		labels = model.classes_
 		prediction = model.predict(splitTestStory)
+		output_csv(splitTestClass, prediction,labels,currentFold,"SVM")
+		output_stats(splitTestClass,prediction,labels,currentFold,"SVM")
 		#print_metrics(testClass, prediction)
 
 		if (bestAccuracy < float(metrics.accuracy_score(splitTestClass, prediction))):
@@ -244,6 +256,8 @@ def main():
 	print "Running against the test data now..."
 	prediction = model.predict(testStory)
 	print_metrics(testClass, prediction)
+	output_csv(testClass, prediction,labels,"Best","SVM")
+	output_stats(testClass,prediction,labels,"Best","SVM")
 	print
 
 	print "Random Forest:"
@@ -262,7 +276,10 @@ def main():
 		splitTestClass = [trainClass[i] for i in testkf]
 
 		model = rand.fit(trainStory, trainClass)
+		labels = model.classes_
 		prediction = model.predict(splitTestStory)
+		output_csv(splitTestClass, prediction,labels,currentFold,"RAndom Forest")
+		output_stats(splitTestClass,prediction,labels,currentFold,"Random Forest")
 		#print_metrics(testClass, prediction)
 
 		if (bestAccuracy < float(metrics.accuracy_score(splitTestClass, prediction))):
@@ -281,6 +298,8 @@ def main():
 	print "Running against the test data now..."
 	prediction = model.predict(testStory)
 	print_metrics(testClass, prediction)
+	output_csv(testClass, prediction,labels,"Best","Random Forest")
+	output_stats(testClass,prediction,labels,"Best","Random Forest")
 	print
 
 	clusterTrainStory = []
@@ -393,6 +412,51 @@ def print_cluster(clusterTrainClass, labels, clusterTestStory):
 	print "Silhouette Coefficient:"
 	print metrics.silhouette_score(clusterTestStory, labels, metric='euclidean')
 	
+def output_csv(testClass,prediction,labels,fold,model):
+	print "Writing confusion matrix..."
+	cm = confusion_matrix(testClass, prediction,labels)
+	global f
+
+	columnTotals = [0,0,0,0,0,0,0,0,0,0]
+	rowTotals = [0,0,0,0,0,0,0,0,0,0]
+
+	f.write("\n")
+	f.write(model)
+	f.write("Fold: " + str(fold) + "\n")
+	labelString = ','.join(labels)
+	labelString = "," + labelString + "\n"
+	f.write(labelString)
+	for x in range(0,len(labels)-1):
+		labelOut = str(labels[x])
+		f.write(labelOut)
+		for y in range(0,len(labels)-1):
+			cmOut = "," + str(cm[x][y])
+			rowTotals[x] = rowTotals[x] + cm[x][y]
+			columnTotals[y] = columnTotals[y] + cm[x][y]
+			f.write(cmOut)
+		rowFigure = "," + str(rowTotals[x])
+		f.write(rowFigure)
+		f.write("\n")
+	columnFigure = ','.join("'{0}'".format(n) for n in columnTotals)
+	columnFigure = "Totals," + columnFigure
+	columnFigure = re.sub('\'', '', columnFigure)
+	f.write(columnFigure)
+	f.write("\n")
+	f.write("\n")
+
+def output_stats(testClass,prediction,labels,fold,model):
+	print "Writing stats..."
+	global s
+
+	s.write(model + "\n")
+	s.write(str(fold) + "\n")
+	s.write(classification_report(testClass,prediction, target_names=labels))
+	
+	#print(classification_report[1])
+
+	s.write("\n")
+
+
 def print_metrics(testClass, prediction):
 	print "Accuracy:"
 	print metrics.accuracy_score(testClass, prediction)
