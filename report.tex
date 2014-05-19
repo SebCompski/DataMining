@@ -44,7 +44,7 @@ Titles are the next tag to be refined by the pre-processor. The title tags infor
 
 Lemmatisation occurs using the nltk.lemmatizer package. The first part of the tuple, the word, is passed in on its own, then run through the lemmatizer. The resultant word, which has all inflections removed and is known as the lexeme of the original word, will then be placed back in the tuple with its original forms POS tag. Finally this list of tuples will be turned back into one long string, so that it’s the same format as the original text read in. \\
 
-The final pre-processing step that is applied to the title of an article is the removal of certain ‘stop’ words. These are words that are short and don’t add any meaning to a sentence. They are extremely common and do not appear often enough in any one particular type of classifcation for it to make any kind of statistical difference. An example of words like this are: ‘and’, ‘the’, or ‘it’. These are all removed, along with their POS tag. \\
+The final pre-processing step that is applied to the title of an article is the removal of certain ‘stop’ words. These are words that are short and don’t add any meaning to a sentence. They are extremely common and do not appear often enough in any one particular type of classification for it to make any kind of statistical difference. An example of words like this are: ‘and’, ‘the’, or ‘it’. These are all removed, along with their POS tag. \\
 
 The final output of the pre-processing for each document looks like the following:
 
@@ -82,11 +82,12 @@ The following classifiers were used in this process:
 \item \textbf{Random Tree} - This is a rule based classifier that constructs decision trees to use for classification.
 \end{itemize}
 
-ScikitLean libraries were used for the classifiers. Below is an example of how the classifiers were run. The gaussian naive bayes library was used, which didn't require any special parameters to run properly. The linearSVC model was used for the SVM classifier, because this allowed multiple classes, rather than the two traditionally allowed by a SVM. The RandomForestClassifier was used for the Random Forest sectinon, the only parameter this required was the number of classes that exist, which is 10 for this limited subsection of the training data used. In the appendix the code listed at point 1 is an example of the naive bayes section, although the other two classifiers were run almost identically, only where the model was called did it change. \\
+ScikitLean libraries were used for the classifiers. Below is an example of how the classifiers were run. The gaussian naive bayes library was used, which didn't require any special parameters to run properly. The linearSVC model was used for the SVM classifier, because this allowed multiple classes, rather than the two traditionally allowed by a SVM. The RandomForestClassifier was used for the Random Forest section, the only parameter this required was the number of classes that exist, which is 10 for this limited subsection of the training data used. In the appendix the code listed at point 1 is an example of the naive bayes section, although the other two classifiers were run almost identically, only where the model was called did it change. \\
 
 Micro and macro statistics are calculated for the most accurate models, when used on the test data, for precisions, recall and f-measure. These can then be used later in the evaluation section to calculate the 95\% confidence interval, and allow more detailed comparison of the models. \\
 
 \section{Evaluation}
+\subsection{Supervised Classification}
 The following tables are the results from classification using three different models, which used 10-cross fold verification to find the best model and then classify the test data.
 
 \begin{center}
@@ -611,7 +612,7 @@ Confidence & 0.026       & 0.013 & 0.015         & N/A     & N/A     & N/A    \\
 \end{longtable}
 \end{center}
 
-The micro and macro valuse for all of the classifiers precision, recall, and F1-score were all also calculated for the three different classifiers, the results of which are shown in this table:
+The micro and macro values for all of the classifiers precision, recall, and F1-score were all also calculated for the three different classifiers, the results of which are shown in this table:
 
 \begin{center}
 \begin{longtable}{| l | l | l | l |}
@@ -629,14 +630,15 @@ F1: Macro        & 0.607 & 0.802         & 0.66  \\
 \end{longtable}
 \end{center}
 
-In the previous table, and the ones preceding it, we can clearly see that the SVM classifier outperforms the others in all of the measured metrics. Normally Naive Bayes classifiers are used when it comes to text classification, because of their very good accuracy, and although the naive bayes classifier did perform well in these experiments, it was outdone by the multi-class SVM classifier. Hence, that is why the SVM model should be recommended as the best one to use.
+In the previous table, and the ones preceding it, we can clearly see that the SVM classifier outperforms the others in all of the measured metrics. Normally Naive Bayes classifiers are used when it comes to text classification, because of their very good accuracy, and although the naive bayes classifier did perform well in these experiments, it was outdone by the multi-class SVM classifier. Hence, that is why the SVM model should be recommended as the best one to use. \\
 
+\subsection{Clusters}
 Cluster analysis allows unsupervised learning to take place on the training and test data, in order to build models for classification. Three different clustering algorithms were used:
 
 \begin{itemize}
 \item \textbf{DBSCAN} - this classifier was chosen because its properties have made it one of the most common types of clustering algorithm used. It didn't require the number of clusters to be defined before beginning, it can find arbitrarily shaped clusters, and it can find clusters that are surrounded by other clusters, which is a property some other clustering algorithms lack.
 \item \textbf{KMeans} - this is another popular clustering algorithm typically used in the academic world, and for solving real world problems.
-\item \textbf{Ward} - again is a popular and generally accurate clusering algorithm. This type of clustering algorithm is also very good at detecting large numbers of clusters in a given space. In this case there should be 10, so ward seemed like a good choice of clustering algorithm.
+\item \textbf{Ward} - again is a popular and generally accurate clustering algorithm. This type of clustering algorithm is also very good at detecting large numbers of clusters in a given space. In this case there should be 10, so ward seemed like a good choice of clustering algorithm.
 \end{itemize}
 
 In the appendix section in the second position is a section of code showing how the clusters were called and their parameters. DBSCAN required two parameters, eps denoted the maximum distance between two samples before they wouldn't be considered in the same neighborhood as each other. Min samples was also used, this denoted the minimum number of samples that would have to exist in a neighborhood before it could be considered a 'core point'. These numbers, of 0.3 and 10 respectively were obtained through trial and error. \\
@@ -660,7 +662,7 @@ Silhouette Coefficient & 0.603  & 0.583 & 0.566 \\
 \end{longtable}
 \end{center}
 
-As is evident from the results, the DBSCAN method yielded the most accurate results, with Kmeans being the second most accurate and then Ward. The silhouette coefficient shows how 'well-clustered' points in any cluster are, by demonstrating how large the average distance is between other points int he same cluster and points in neighboring clusters. DBSCAN has a distinct lead in silhouette score over the other two clusters.
+As is evident from the results, the DBSCAN method yielded the most accurate results, with Kmeans being the second most accurate and then Ward. The silhouette coefficient shows how 'well-clustered' points in any cluster are, by demonstrating how large the average distance is between other points in the same cluster and points in neighboring clusters. DBSCAN has a distinct lead in silhouette score over the other two clusters.
 
 A copy of the results along with the source code for the project can be found here on a repository on Github:
 
@@ -682,7 +684,7 @@ kf = KFold(len(testClass), 10)
 #For each of the folds we want, make a seperate set of training data
 for trainkf, testkf in kf:
     print ("Doing fold: %d" % currentFold)
-    #trainkf and testkf are a list of indicies, so you need to pull
+    #trainkf and testkf are a list of indices, so you need to pull
         them out
     splitTrainStory = [trainStory[i] for i in trainkf]
     splitTrainClass = [trainClass[i] for i in trainkf]
