@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.1.18)  18 MAY 2014 15:37
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.1.18)  19 MAY 2014 09:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -199,6 +199,9 @@ Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
 \c@LT@chunks=\count116
 \LT@p@ftn=\toks24
 )
+(/usr/local/texlive/2013/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
 \@float@every@table=\toks25
 
 (./report.aux)
@@ -323,9 +326,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
 
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
 [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
@@ -378,115 +378,113 @@ Underfull \hbox (badness 10000) in paragraph at lines 47--48
 
  []
 
+[2]
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 52.
-(/usr/local/texlive/2013/texmf-dist/tex/latex/base/omlcmr.fd
+ (/usr/local/texlive/2013/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 52.
- [2]
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 80.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 80.
+ [3]
 Underfull \hbox (badness 10000) in paragraph at lines 85--86
 
  []
 
-[3]
+
 Underfull \hbox (badness 10000) in paragraph at lines 87--88
 
  []
 
+[4] [5] [6] [7] [8] [9] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 543--544
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--90
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 572
+ []
+
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 4 on input line 585.
+
+[11]
+Underfull \vbox (badness 10000) detected at line 612
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 630
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 633--634
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 91--92
+Underfull \hbox (badness 10000) in paragraph at lines 644--645
 
  []
 
-! Argument of \LT@c@ption has an extra }.
-<inserted text> 
-                \par 
-l.98 \caption[Naive Bayes Results.}
-                                    \\
-I've run across a `}' that doesn't seem to match anything.
-For example, `\def\a#1{...}' and `\a}' would produce
-this error. If you simply proceed now, the `\par' that
-I've just inserted will cause me to report a runaway
-argument that might be the root of the problem. But if
-your `}' was spurious, just type `2' and it will go away.
 
-Runaway argument?
-Naive Bayes Results.
-! Paragraph ended before \LT@c@ption was complete.
-<to be read again> 
-                   \par 
-l.98 \caption[Naive Bayes Results.}
-                                    \\
-I suspect you've forgotten a `}', causing me to apply this
-control sequence to too much text. How can we recover?
-My plan is to forget the whole thing and hope for the best.
+Underfull \hbox (badness 10000) in paragraph at lines 646--647
 
-! Misplaced \cr.
-\reserved@c ->\ifnum 0=`{\fi }\cr 
-                                  
-l.99 
-     
-I can't figure out why you would want to use a tab mark
-or \cr or \span just now. If something like a right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
+ []
 
-! Misplaced \noalign.
-\hline ->\noalign 
-                  {\ifnum 0=`}\fi \penalty \@M \futurelet \@let@token \LT@@h...
-l.101 \hline
-            
-I expect to see \noalign only after the \cr of
-an alignment. Proceed, and I'll ignore this case.
 
-! Misplaced \omit.
-\multispan ->\omit 
-                   \@multispan 
-l.102 N
-       aive Bayes &           &        &          &         \\
-I expect to see \omit only after tab marks or the \cr of
-an alignment. Proceed, and I'll ignore this case.
+Underfull \vbox (badness 10000) detected at line 662
+ []
 
-! Misplaced \span.
-\sp@n ->\span 
-              \omit \advance \@multicnt \m@ne 
-l.102 N
-       aive Bayes &           &        &          &         \\
-I can't figure out why you would want to use a tab mark
-or \cr or \span just now. If something like a right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
+[13]
+Overfull \hbox (4.38469pt too wide) in paragraph at lines 684--685
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
 
-! Misplaced \omit.
-\sp@n ->\span \omit 
-                    \advance \@multicnt \m@ne 
-l.102 N
-       aive Bayes &           &        &          &         \\
-I expect to see \omit only after tab marks or the \cr of
-an alignment. Proceed, and I'll ignore this case.
+[14]
 
-! Misplaced \span.
-\sp@n ->\span 
-              \omit \advance \@multicnt \m@ne 
-l.102 N
-       aive Bayes &           &        &          &         \\
-I can't figure out why you would want to use a tab mark
-or \cr or \span just now. If something like a right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvage
+Package longtable Warning: Table widths have changed. Rerun LaTeX.
+
+[15] (./report.aux) ) 
+Here is how much of TeX's memory you used:
+ 4170 strings out of 493315
+ 58283 string characters out of 6137904
+ 173159 words of memory out of 5000000
+ 7570 multiletter control sequences out of 15000+600000
+ 10055 words of font info for 36 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 38i,6n,40p,769b,1539s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmi10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr17.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mti10.pfb>
+Output written on report.pdf (15 pages, 151123 bytes).
+PDF statistics:
+ 85 PDF objects out of 1000 (max. 8388607)
+ 59 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
